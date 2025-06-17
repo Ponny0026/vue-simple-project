@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>To-Do List</h1>
+    <to-do-form @todo-added="addToDo"></to-do-form>
     <ul>
       <li v-for="item in ToDoItems" :key="item.id">
         <to-do-item :label="item.label" :done="true" :id="item.id"></to-do-item>
@@ -12,11 +13,14 @@
 <script>
 import ToDoItem from "./components/TodoItem.vue";
 import { nanoid } from "nanoid";
+import ToDoForm from "./components/ToDoForm.vue";
+
 
 export default {
   name: 'App',
   components: {
-    ToDoItem
+    ToDoItem,
+    ToDoForm
   },
   data() {
     return {
@@ -26,8 +30,18 @@ export default {
         { id: `todo-${nanoid()}`, label: "Have fun", done: true },
         { id: `todo-${nanoid()}`, label: "Create a to-do list", done: false },
       ],
-    };
+    }
   },
+  methods: {
+    addToDo(toDoLabel) {
+      console.log("To-do added: ", toDoLabel);
+      this.ToDoItems.push({
+        id: `todo-${nanoid()}`,
+        label: toDoLabel,
+        done: false
+      })
+    }
+  }
 }
 </script>
 
